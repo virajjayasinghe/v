@@ -1,4 +1,4 @@
----------------translate kotuval---------------------------------Add commentMore actions
+---------------translate kotuval---------------------------------
 
 
 import javax.swing.*;
