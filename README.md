@@ -1,333 +1,582 @@
----------------translate kotuval---------------------------------
+import java.util.Scanner;
 
 
-import javax.swing.*;
-import java.awt.*;
+ class Stack{
 
-public class Translation extends JPanel {
+    private int x;
+    private int top;
+    private int [] array;
 
-  
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // Ensures proper rendering
+    public Stack(int value){
 
-        int[] x = {0, 200, 200, 0}; // X-coordinates
-        int[] y = {0, 0, 200, 200}; // Y-coordinates
-        // Original square
-        g.setColor(Color.BLUE);
-        ddaLine(x[0], y[0], x[1], y[1], g);
-        ddaLine(x[1], y[1], x[2], y[2], g);
-        ddaLine(x[2], y[2], x[3], y[3], g);
-        ddaLine(x[3], y[3], x[0], y[0], g);
+        x = value;
 
-        // Translated square
-        
-        translate(x, y, 250, 250); // Translate by (20, 20)
+        array = new int[x];
 
-        g.setColor(Color.RED);
-        ddaLine(x[0], y[0], x[1], y[1], g);
-        ddaLine(x[1], y[1], x[2], y[2], g);
-        ddaLine(x[2], y[2], x[3], y[3], g);
-        ddaLine(x[3], y[3], x[0], y[0], g);
+        top = -1;
+
     }
 
-    public void ddaLine(int x1, int y1, int x2, int y2, Graphics g) {
-        int dx = x2 - x1;
-        int dy = y2 - y1;
+    public void push(int y){
 
-        int steps = Math.max(Math.abs(dx), Math.abs(dy));
+        if(isFull()){
 
-        float Xinc = (float) dx / steps;
-        float Yinc = (float) dy / steps;
+            System.out.println("Not stack values");
 
-        float x = x1;
-        float y = y1;
+        }else{
 
-        for (int i = 0; i <= steps; i++) {
-            g.fillRect(Math.round(x), Math.round(y), 1, 1);
-            x += Xinc;
-            y += Yinc;
+            array[++top] = y;
+            System.out.println("y add stack");
+
         }
+
     }
 
-    public void translate(int x[], int y[], int tx, int ty) {
-        for (int i = 0; i < x.length; i++) {
-            x[i] += tx;
-            y[i] += ty;
+    public void pop(){
+
+        if(isEmpty()){
+
+            System.out.println("remove no data");
+
+
+        }else{
+
+            System.out.println(array[top--] + "data reove");
+
+
         }
+
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Translation Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
-        frame.add(new Translation());
-        frame.setVisible(true);
+    public void peek(){
+
+        if(isEmpty()){
+
+            System.out.println("stack value no");
+
+        }else{
+
+            System.out.println(array[top] + "more values");
+
+        }
+
+
     }
-}
-
------------------------------scaling---------------------------------
 
 
-import javax.swing.*;
-import java.awt.*;
+    public boolean isFull(){
 
-public class Scaling extends JPanel {
+        return (top == x - 1 );
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        
-        int[] x = {0, 200, 200, 0};
-        int[] y = {0, 0, 200, 200};
-
-       
-        g.setColor(Color.BLUE);
-        drawPolygon(x, y, g);
-
-        
-        float sx = 1.5f; // X-scaling factor
-        float sy = 0.5f; // Y-scaling factor
-        scale(x, y, sx, sy);
-
-       
-        g.setColor(Color.RED);
-        drawPolygon(x, y, g);
     }
-   
-        private void drawPolygon(int[] x, int[] y, Graphics g) {
-            for (int i = 0; i < x.length - 1; i++) {
-                ddaLine(x[i], y[i], x[i + 1], y[i + 1], g);
+
+    public boolean isEmpty(){
+
+        return (top == -1);
+
+    }
+
+    public void dispaly(){
+
+        if(isEmpty()){
+
+            System.out.println("no stack value");
+
+        }else{
+
+            System.out.println("this is a stack value");
+
+
+            for(int i = 0 ; i<= top; i++){
+
+                System.out.println(array[i]);
+
+
             }
-            // Close the polygon
-            ddaLine(x[x.length - 1], y[y.length - 1], x[0], y[0], g);
+
+            System.out.println();
+
         }
+
+
+
+    }
+
+
+}
+
+
+public class Arraystack {
     
-   
+    public static void main(String args[]){
 
-    public void ddaLine(int x1, int y1, int x2, int y2, Graphics g) {
-        int dx = x2 - x1;
-        int dy = y2 - y1;
+        Scanner as = new Scanner(System.in);
 
-        int steps = Math.max(Math.abs(dx), Math.abs(dy));
+        System.out.println("Enter your stack size");
 
-        float Xinc = (float) dx / steps;
-        float Yinc = (float) dy / steps;
+        int value = as.nextInt();
 
-        float x = x1;
-        float y = y1;
+        Stack stack = new Stack(value);
 
-        for (int i = 0; i <= steps; i++) {
-            g.fillRect(Math.round(x), Math.round(y), 1, 1);
-            x += Xinc;
-            y += Yinc;
-        }
-    }
+        int chos;
 
-    public void scale(int[] x, int[] y, float sx, float sy) {
-        for (int i = 0; i < x.length; i++) {
-            x[i] = Math.round(x[i] * sx);
-            y[i] = Math.round(y[i] * sy);
-        }
-    }
+        do{
+            System.out.println("entwer your like function");
+            System.out.println("1.push Add stack data");
+            System.out.println("2.pop data removed");
+            System.out.println("3.peek top  data");
+            System.out.println("4.dispaly stack values");
+            System.out.println("5.exit");
+            System.out.println("this choise number");
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Scaling Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
-        frame.add(new Scaling());
-        frame.setVisible(true);
-    }
+            chos = as.nextInt();
 
+            switch (chos) {
+                case 1:
+                    
+                    System.out.println("Enter your stack data");
+                    int y = as.nextInt();
+                    stack.push(y);
 
+                    break;
 
----------------------------------rotation------------------------------
+                case 2:
 
-import javax.swing.*;
-import java.awt.*;
+                    stack.pop();
+                    System.out.println("data removed");
 
-public class Rotate extends JPanel {
+                    break;
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // Ensures proper rendering
+                case 3:
 
-        // Original square coordinates
-        int[] x = {100, 300, 300, 100};
-        int[] y = {100, 100, 300, 300};
+                    stack.peek();
+                    break;
 
-        // Draw original square in BLUE
-        g.setColor(Color.BLUE);
-        drawPolygon(x, y, g);
+                case 4:
 
+                    
+                    stack.dispaly();
+                    break;
 
-        // Apply rotation (relative to origin)
-        double angle = Math.toRadians(30); // 60 degrees
-        rotate(x, y, angle);
+                case 5:
 
-        // Draw transformed square in RED
-        g.setColor(Color.RED);
-        drawPolygon(x, y, g);
-    }
+                    System.out.println("function exit");
+                    break;
+            
+                default:
 
-    private void drawPolygon(int[] x, int[] y, Graphics g) {
-        for (int i = 0; i < x.length - 1; i++) {
-            ddaLine(x[i], y[i], x[i + 1], y[i + 1], g);
-        }
-        // Close the polygon
-        ddaLine(x[x.length - 1], y[y.length - 1], x[0], y[0], g);
-    }
+                    System.out.println("your amswer not valide");
 
-    public void ddaLine(int x1, int y1, int x2, int y2, Graphics g) {
-        int dx = x2 - x1;
-        int dy = y2 - y1;
+                    break;
+            }
 
-        int steps = Math.max(Math.abs(dx), Math.abs(dy));
+        }while (chos != 5);
 
-        float Xinc = (float) dx / steps;
-        float Yinc = (float) dy / steps;
-
-        float x = x1;
-        float y = y1;
-
-        for (int i = 0; i <= steps; i++) {
-            g.fillRect(Math.round(x), Math.round(y), 1, 1);
-            x += Xinc;
-            y += Yinc;
-        }
-    }
-
-    public void rotate(int[] x, int[] y, double angle) {
-        for (int i = 0; i < x.length; i++) {
-            int oldX = x[i];
-            int oldY = y[i];
-            x[i] = Math.round((float)(oldX * Math.cos(angle) - oldY * Math.sin(angle)));
-            y[i] = Math.round((float)(oldX * Math.sin(angle) + oldY * Math.cos(angle)));
-        }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Scaling and Rotation Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
-        frame.add(new Rotate());
-        frame.setVisible(true);
-    }
-}
-
---------------------------------sharering-----------------------------
-
-
-import javax.swing.*;
-import java.awt.*;
-
-public class Shearing extends JPanel {
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // Ensures proper rendering
-
-        // Original square
-        g.setColor(Color.BLUE);
-        // Square coordinates
-        int[] x = {0, 200, 200, 0}; // X-coordinates
-        int[] y = {0, 0, 200, 200}; // Y-coordinates
-        ddaLine(x[0], y[0], x[1], y[1], g);
-        ddaLine(x[1], y[1], x[2], y[2], g);
-        ddaLine(x[2], y[2], x[3], y[3], g);
-        ddaLine(x[3], y[3], x[0], y[0], g);
-       
-
-        // Shear the square
-       //shear(x, y, 1.0f, 0.5f); // Shear X by 1.0, Y by 0.5
-       //shear(x, y, 0, 0.5f); // Shear X by 0, Y by 0.5
-        shear(x, y, 1.0f, 0); // Shear X by 1.0, Y by 0
-
-        // Draw sheared square
-        g.setColor(Color.RED);
-        ddaLine(x[0], y[0], x[1], y[1], g);
-        ddaLine(x[1], y[1], x[2], y[2], g);
-        ddaLine(x[2], y[2], x[3], y[3], g);
-        ddaLine(x[3], y[3], x[0], y[0], g);
-    }
-
-    public void ddaLine(int x1, int y1, int x2, int y2, Graphics g) {
-        int dx = x2 - x1;
-        int dy = y2 - y1;
-        int steps = Math.max(Math.abs(dx), Math.abs(dy));
-
-        float Xinc = (float) dx / steps;
-        float Yinc = (float) dy / steps;
-
-        float x = x1;
-        float y = y1;
-
-        for (int i = 0; i <= steps; i++) {
-            g.fillRect(Math.round(x), Math.round(y), 1, 1);
-            x += Xinc;
-            y += Yinc;
-        }
-    }
-
-    public void shear(int[] x, int[] y, float shx, float shy) {
-        for (int i = 0; i < x.length; i++) {
-            int newX = Math.round(x[i] + shx * y[i]);
-            int newY = Math.round(y[i] + shy * x[i]);
-            x[i] = newX;
-            y[i] = newY;
-        }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("2D Shearing Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 800);
-        frame.add(new Shearing());
-        frame.setVisible(true);
-    }
-}
-
---------------------------------------------------------------------------------------------------
-
---------------------------------------lint drowing---------------------------------------------
-
-  public void ddD(int x1,int y1,int x2,int y2,Graphics g ){
-
-        int dx = x2-x1;
-        int dy = y2-y1;
-
-        int steps = Math.max(Math.abs(dx),Math.abs(dy));
-
-        float x_inc = (float) dx / steps;
-        float y_inc = (float) dy / steps;
-
-        float x = x1;
-        float y = y1;
-
-        for(int i = 0; i<=steps;i++){
-
-            g.fillRect(Math.round(x),Math.round(y),2,2);
-
-            x += x_inc;
-            y += y_inc;
-
-
+        as.close();
+            
         
 
+    }
+
+
+}
+
+
+-------------------------------------------------------
+
+
+import java.util.Scanner;
+
+// Custom Stack implementation
+class CharStack {
+    private char[] stack;
+    private int top;
+
+    // Constructor to initialize stack with given size
+    public CharStack(int size) {
+        stack = new char[size];
+        top = -1;
+    }
+
+    // Push character onto stack
+    public void push(char c) {
+        if (top == stack.length - 1) {
+            System.out.println("Stack overflow!");
+        } else {
+            stack[++top] = c;
+        }
+    }
+
+    // Pop character from stack
+    public char pop() {
+        if (top == -1) {
+            System.out.println("Stack underflow!");
+            return '\0';
+        }
+        return stack[top--];
+    }
+
+    // Check if stack is empty
+    public boolean isEmpty() {
+        return top == -1;
+    }
+}
+
+public class palindrome {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // a. Accept a word from the user
+        System.out.print("Enter a word: ");
+        String word = sc.nextLine();
+
+        // Create a stack with size equal to word length
+        CharStack stack = new CharStack(word.length());
+
+        // b. Push characters to stack
+        for (char c : word.toCharArray()) {
+            stack.push(c);
+        }
+
+        // c. Pop characters to form a reversed word
+        StringBuilder reversed = new StringBuilder();
+        while (!stack.isEmpty()) {
+            reversed.append(stack.pop());
+        }
+
+        // d. Compare original and reversed word
+        if (word.equalsIgnoreCase(reversed.toString())) {
+            System.out.println(word + " is a palindrome.");
+        } else {
+            System.out.println(word + " is not a palindrome.");
+        }
+
+        sc.close();
+    }
+}
+
+-----------------------------------------
+
+public class MergeSort{
+    public static void main(String [] args){
+        int[] array = {25, 36, 12, 9, 48, 27, 2, 59, 15, 1};
+        divide(array, 0, array.length - 1);
+
+        System.out.println("\nSorted array:");
+        printArray(array);
+    }
+    public static void divide(int [] arr, int left, int right){
+        if(left < right){
+            int mid = left + (right - left)/2;
+            divide(arr, left, mid);
+            divide(arr, mid+1, right);
+            merge(arr, left, mid, right);
+        }
+    }
+    public static void merge(int [] arr, int l, int m, int h){
+
+        int n1 = m - l + 1;
+        int n2 = h - m;
+
+        int L[] = new int[n1];
+        int R[] = new int[n2];
+
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[l + i];
+        for (int j = 0; j < n2; j++)
+            R[j] = arr[m + 1 + j];
+
+        int i = 0, j = 0;
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
+                i++;
+            }
+            else {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+    public static void printArray(int[] array) {
+        for (int value : array) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
+    }
+}
+
+---------------------------------------------------
+
+import java.util.Scanner;
+
+class Stack {
+    private int size;
+    private int top;
+    private char[] array;
+
+    public Stack(int value) {
+        size = value;
+        array = new char[size];
+        top = -1;
+    }
+
+    // Push character
+    public void push(char ch) {
+        if (isFull()) {
+            System.out.println("Stack is full, cannot add more characters.");
+        } else {
+            array[++top] = ch;
+            System.out.println(ch + " added to stack");
+        }
+    }
+
+    // Pop character
+    public void pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty, nothing to remove.");
+        } else {
+            System.out.println(array[top--] + " removed from stack");
+        }
+    }
+
+    // Peek top character
+    public void peek() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty, no top element.");
+        } else {
+            System.out.println("Top element: " + array[top]);
+        }
+    }
+
+    // Display all characters in the stack
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty.");
+        } else {
+            System.out.println("Stack elements:");
+            for (int i = 0; i <= top; i++) {
+                System.out.print(array[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    // Check if the current stack is a palindrome
+    public void checkPalindrome() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty. Cannot check palindrome.");
+            return;
+        }
+        boolean isPalindrome = true;
+        for (int i = 0; i <= top / 2; i++) {
+            if (array[i] != array[top - i]) {
+                isPalindrome = false;
+                break;
+            }
+        }
+        if (isPalindrome) {
+            System.out.println("Stack data forms a palindrome.");
+        } else {
+            System.out.println("Stack data does not form a palindrome.");
+        }
+    }
+
+    // Helper methods
+    public boolean isFull() {
+        return (top == size - 1);
+    }
+
+    public boolean isEmpty() {
+        return (top == -1);
+    }
+}
+
+public class Arraystack {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter stack size: ");
+        int value = sc.nextInt();
+        Stack stack = new Stack(value);
+
+        int choice;
+        do {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Push (Add character to stack)");
+            System.out.println("2. Pop (Remove character from stack)");
+            System.out.println("3. Peek (Show top character)");
+            System.out.println("4. Display stack");
+            System.out.println("5. Exit");
+            System.out.println("6. Check Palindrome");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter character to push: ");
+                    char ch = sc.next().charAt(0);
+                    stack.push(ch);
+                    break;
+                case 2:
+                    stack.pop();
+                    break;
+                case 3:
+                    stack.peek();
+                    break;
+                case 4:
+                    stack.display();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+                case 6:
+                    stack.checkPalindrome();
+                    break;
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
+
+------------------------------------------------------------
+
+class Linkedlist{
+
+    class Node{
+
+        int data;
+        Node next;
+
+        Node(int data){
+            this.data = data;
+            this.next = null;
         }
 
 
     }
-    public void Translaon(int x[],int y[],int tx,int ty){
-
-        for(int i = 0; i < x.length;i++){
-
-            x[i] += tx;
-            y[i] += ty;
 
 
+    class Charnode{
+        char data;
+        Charnode next;
+
+        Charnode(char data){
+            this.data = data;
+            this.next  =null;
         }
-
     }
 
-----------------------------------crical algorithm------------------------------------------
+    private Node head;
+
+public Linkedlist(){
+
+    head = null;
+
+}
+
+public void insert(int data){
+
+    Node newNode  = new Node(data);
+    if(head == null){
+        head = newNode;
+    }else{
+        Node current = head;
+        while(current.next != null){
+            current = current.next;
+        }
+        current.next = newNode;
+    }
+
+}
+
+public void Delete(int data){
+
+    if(head == null){
+        return;
+    }
+    if(head.data == data){
+        head = head.next;
+        return;
+    }
+    Node current = head;
+    while (current.next != null && current.next.data != data){
+        current = current.next;
+    }
+    if (current.next != null){
+        current.next = current.next.next;
+    }
+}
+
+public boolean Serch(int data){
+
+    Node current = head;
+    while(current != null){
+
+        if(current.data ==data){
+            return true;
+        }
+
+        current = current.next;
+        
+
+    }
+   return false;
+
+}
+
+public void display(){
+
+    Node current = head;
+    while(current != null){
+
+        System.out.println( "->" +current.data );
+        current = current.next;
+
+    }
+    System.out.println("null");
+
+}
+
+public static void main(String[] args){
+
+    Linkedlist list = new Linkedlist();
+
+    list.insert(1);
+    list.insert(10);
+    list.insert(5);
+    list.insert(6);
+    list.insert(4);
+
+    list.display();
+
+    list.Delete(10);
+    list.display();
+
+    list.insert(20);
+    list.display();
+
+
+     list.Delete(20);
+     list.display();
+
+}
+
+}
